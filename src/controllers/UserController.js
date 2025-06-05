@@ -1,5 +1,6 @@
 const UserModel = require('../models/User');
 const handleValidationErrors = require("../Utility/validate");
+const UserResource = require('../resources/UserResource');
 
 class UserController {
     static async signup(req, res, next) {
@@ -13,7 +14,7 @@ class UserController {
                 return res.status(200).json({
                     success: true,
                     message: 'User already exists.',
-                    data: existingUser
+                    data: UserResource.toJson(existingUser)
                 })
             }
 
@@ -38,7 +39,7 @@ class UserController {
             return res.status(200).json({
                 success: true,
                 message: 'All users fetched successfully.',
-                data: users
+                data: UserResource.collection(users)
             })
         } catch (error) {
             next(error)
